@@ -45,8 +45,8 @@ fplot(double (*f)(double), double argbeg, double argend)
 	struct ncvisual *ncv = ncvisual_from_rgba(g.emptybuf, g.hpx, g.wpx * 4, g.wpx);
 	// 1. Draw lines in between plot points
 	for (int i = 0; i < g.wpx-1; ++i) {
-		double y0 = g.hpx * (1 - (vals[i] - minval) / valspan);
-		double y1 = g.hpx * (1 - (vals[i+1] - minval) / valspan);
+		double y0 = (g.hpx-1) * (1 - (vals[i] - minval) / valspan);
+		double y1 = (g.hpx-1) * (1 - (vals[i+1] - minval) / valspan);
 		double x0 = i;
 		double x1 = i+1;
 		// Wu's line drawing algorithm (adapted from Wikipedia pseudocode)
@@ -107,7 +107,7 @@ fplot(double (*f)(double), double argbeg, double argend)
 	}
 	// 2. Draw dots at plot points (the endings of the lines)
 	for (int i = 0; i < g.wpx; ++i) {
-		double y = g.hpx * (1 - (vals[i] - minval) / valspan);
+		double y = (g.hpx-1) * (1 - (vals[i] - minval) / valspan);
 		ncvisual_set_yx(ncv, round(y), i, linepixel(1));
 	}
 	free(vals);
